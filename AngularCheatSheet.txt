@@ -1,0 +1,60 @@
+//Install Angular CLI--
+npm install -g @angular/cli
+
+//create a new workspace-
+ng new my-app
+
+//download and create the node_module after reading from package.json
+npm install
+
+//Run angular application
+cd my-app
+ng serve --open
+
+//build project
+ng build
+
+Files in angular--
+
+e2e - end to end used for testing
+
+node_module - all angular libraries and dependencies.
+
+src->app
+component
+module
+
+assets- kep project images and icons
+
+environments- environment configurations.
+
+karma.conf.js - testing
+
+main.ts - configuration about environment
+
+polyfill.ts - maintaing the version of different version of browsers.
+
+tslint.json - setting rules for angular app
+
+angular.json - configuration of all the main files.
+
+
+dist folder---used in deployment
+
+main.js - consist of dependencies after build
+
+GIT-----
+
+git config --global user.name "souviksarkar9"
+
+git config --global user.email "souviksarkar9@gmail.com"
+
+git clone url 
+
+
+
+
+
+
+
+
