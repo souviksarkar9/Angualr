@@ -1,3 +1,11 @@
+Angular--JS framework that allows us to create single page applicaitons(SPA)
+
+diff between--
+angularJS = Angular1
+
+//node js install
+install the latest version of node.js
+
 //Install Angular CLI--
 npm install -g @angular/cli
 
@@ -13,6 +21,18 @@ ng serve --open
 
 //build project
 ng build
+
+//install bootstrap for css
+npm install --save bootstrap@3
+
+//under angular.json add--
+"styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
+			
+//run the project
+ng serve --open			
 
 Files in angular--
 
@@ -49,7 +69,143 @@ git config --global user.name "souviksarkar9"
 
 git config --global user.email "souviksarkar9@gmail.com"
 
-git clone url 
+git clone https://github.com/souviksarkar9/Angualr.git
+
+//PUSH TO GIT-----
+
+git init
+
+git add .
+
+git commit -m "first-commit"
+
+git remote add origin https://github.com/souviksarkar9/Angualr.git
+
+git push -u origin master
+
+//WEB PACK-----------------------------
+
+Creates a bindle of 5 files-
+polyfill
+main
+runtime
+styles
+vendor
+
+-----------CRSS ERROR----------------------------
+
+C:\Program Files (x86)\Google\Chrome\Application =>
+
+type cmd =>
+
+//paste the below commandcho
+chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+
+----------------------------------------
+
+//Create a component
+ng generate component <component-name>
+
+-----------------------------------------
+//Selector is a identifier as tag
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+//As Attribute
+@Component({
+  selector: '[app-root]',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+--------------------------------------
+DataBinding-
+
+Output Binding-
+	--------OUTPUT DATA---------------
+	1.String Interpolation - ({{data}})
+	2.Property Binding- ([property] = 'data')
+	--------REACT USER EVENTS--------------
+	3.Event Binding- (click) = "expression"
+		       (input) = "expression"
+	--------TWO WAY BINDING---------------
+	4.[(ngModel)] = "data"--Directives--
+
+SAMPLE------------------------------------			
+									//2 way binding
+<input type="text" placeholder="enter name" (input)="showmsg($event)" [(ngModel)] = 'name' >
+<p>{{name}}</p> //interpolation
+<button [disabled]="!isEnable" (click)="reset()">Reset Text</button>
+	//property binding	//event binding
+---------------SAMPLE ENDS--------------------
+
+Directives-
+
+Structural Directives- This directives changes the structure of the 
+DOM, example <p *ngIf="expression"> test </p> -- the p will be added in the DOM
+based on a condition.
+-----ng if else example-----Structural Directive (add/remove from the DOM)
+<input type="text" [(ngModel)] = 'name' (input) = "onUpdateShowMsg($event)">
+<p *ngIf="isuserNameEmpty; else greet" >  {{name}} </p>
+<ng-template #greet>
+    <p>Please enter username</p>
+</ng-template>
+<button [hidden] = '!isuserNameEmpty' (click) = "onClickShowResetMsg()"> Reset Username</button>
+
+------------Attribute Directive (doesn't add or remove element, it only changes the element they are plcaed on)
+---ngStyle----- dynamically change the CSS
+
+<span [ngStyle]="{color: 'red'}" *ngIf="no1===''">Please Enter first number</span>
+<input type="text" [(ngModel)] = 'no1' >
+<span [ngStyle]="{color: 'red'}" *ngIf="no2===''">Please Enter second number</span>
+<input type="text" [(ngModel)] = 'no2' >
+
+<div *ngIf="no1!='' && no2!=''">
+    <input [ngStyle]="{backgroundColor: getColor()}" type="text" [(ngModel)] = 'result' >
+    <button [disabled] = "no1==='' || no2===''"  (click) = "onClickShowResult()"> Verify Result </button>
+    <button (click) = "onClickNextNumbers()"> Next</button>
+</div>
+
+---ngClass---- add or remove a css class if certain condition is matched
+<div *ngIf="no1!='' && no2!=''">
+    <input [ngStyle]="{backgroundColor: getColor()}" 
+    [ngClass]="{correct: color === 'green' , wrong: color === 'red'}"
+    type="text" [(ngModel)] = 'result' >
+    <button [disabled] = "no1==='' || no2===''"  (click) = "onClickShowResult()"> Verify Result </button>
+    <button (click) = "onClickNextNumbers()"> Next</button>
+</div>
+
+----ngFor----Structural Directives---
+
+<table border="1px">
+        <tr>
+            <th>Sl No#</th>
+            <th>Question 1</th>
+            <th>Question 2</th>
+            <th>Your Answer</th>
+            <th>Correct Anwser</th>
+            <th (click)="resetShowResult()">X</th>
+        </tr>      
+        
+        <tr *ngFor = "let q of questions; let i = index" [ngStyle]="{backgroundColor: q.iscorrect===true ? 'green' : 'red' }"
+        [ngClass]="{correct: q.iscorrect === true , wrong: q.iscorrect === false }"
+        >
+            <td>{{q.qno}}</td>
+            <td>{{q.no1}}</td>
+            <td>{{q.no2}}</td>
+            <td>{{q.answer}}</td>
+            <td>{{q.correctanswers}}</td>            
+          </tr>
+    </table>
+
+
+
+
+
+
 
 
 

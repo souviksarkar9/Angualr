@@ -1,0 +1,49 @@
+<div class="main">
+  <h1>Student Result Registration</h1>
+<form [formGroup] = "form" (ngSubmit) = "onSubmit(form.value)" >
+  <table align="center">
+    <tr>
+      <td><input type="text" placeholder="Student Name" name="studentname" formControlName="studentname"></td>
+    </tr>
+    <tr>
+      <td><label>Maths:</label></td>
+      <td><input type="text" placeholder="Enter Maths marks" name="maths" formControlName="maths"></td>      
+    </tr>
+    <tr>
+      <td><label>Science:</label></td>
+      <td><input type="text" placeholder="Enter Science marks" name="science" formControlName="science"></td>      
+    </tr>
+    <tr>
+      <td><label>English:</label></td>
+      <td><input type="text" placeholder="Enter English marks" name="english" formControlName="english"></td>      
+    </tr>
+    <tr>
+      <td><input type="submit" [disabled]="!form.valid" value="submit"></td>  
+    </tr>
+  </table>  
+</form>
+</div> 
+<div [hidden] = "isDataExistInArray">
+  <table border="1px" class="main">
+    <tr>
+      <th (click)="sortdata('studentid')">Student Id</th>
+      <th (click)="sortdata('studentname')">Student Name</th>
+      <th (click)="sortdata('maths')">Maths</th>
+      <th (click)="sortdata('scrience')">Science</th>
+      <th (click)="sortdata('english')">English</th>
+      <th (click)="sortdata('total')">Total</th>
+      
+      <th>Remove</th>
+    </tr>   
+
+    <tr *ngFor = "let i of items let indx = index">
+      <td>{{i.id}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.result.maths}}</td>
+      <td>{{i.result.science}}</td>
+      <td>{{i.result.english}}</td>
+      <td>{{i.result.total}}</td>      
+      <td><span (click) = "removeItem(i , indx)" >X</span></td>
+    </tr>
+  </table>
+</div>
