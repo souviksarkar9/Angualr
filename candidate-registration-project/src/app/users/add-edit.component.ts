@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '../_services';
+import { User } from '../_models/user';
 
 @Component({ templateUrl: 'add-edit.component.html' })  
 export class AddEditComponent implements OnInit {
@@ -12,6 +13,8 @@ export class AddEditComponent implements OnInit {
     isAddMode!: boolean;
     loading = false;
     submitted = false;
+    username : string | undefined;
+    password : string | undefined;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -32,21 +35,35 @@ export class AddEditComponent implements OnInit {
         }
 
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
+            name: ['', Validators.required],            
+            dob: ['', Validators.required],
             username: ['', Validators.required],
-            password: ['', passwordValidators]
+            password: ['', [Validators.required, Validators.minLength(6)]]
         });
 
         if (!this.isAddMode) {
             this.accountService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
-                    //this.f.firstName.setValue(x.firstName);
-                    //this.f.lastName.setValue(x.lastName);
-                    this.f.firstName.setValue(x.name);
+                    this.f.name.setValue(x.name);
+                    this.f.dob.setValue(x.dob);
                     this.f.username.setValue(x.username);
+                    this.f.password.setValue(x.password);
                 });
+        }
+        if (this.isAddMode) {
+            this.accountService.getTempCredentials()
+            .pipe(first())
+            .subscribe(
+                (                data: User) => {                
+                    this.username = data.username;
+                    this.password = data.password;
+                    this.alertService.success('username ' + data.username + ' password: ' + data.password );                   
+                },
+                (                error: any) => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });  
         }
     }
 
@@ -55,19 +72,16 @@ export class AddEditComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
-        // reset alerts on submit
         this.alertService.clear();
-
-        // stop here if form is invalid
         if (this.form.invalid) {
             return;
         }
-
         this.loading = true;
         if (this.isAddMode) {
+            console.log('creating a new user ');
             this.createUser();
         } else {
+            console.log('updating an user ');
             this.updateUser();
         }
     }
@@ -77,7 +91,7 @@ export class AddEditComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+                    this.alertService.success('User added successfully', { keepAfterRouteChange: true });                    
                     this.router.navigate(['.', { relativeTo: this.route }]);
                 },
                 error => {

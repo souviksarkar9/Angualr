@@ -65,13 +65,10 @@ export class AccountService {
     update(id: string | null, user: User) {
         console.log("Candidate ID "+ user.candidateId);
         return this.http.post(`${environment.apiUrl}/update/${id}`, user)
-            .pipe(map(x => {
-                // update stored user if the logged in user updated their own record
-                if (this.userValue !=null && this.userValue.candidateId !=null && id == this.userValue.candidateId) {
-                    // update local storage
+            .pipe(map(x => {                
+                if (this.userValue !=null && this.userValue.candidateId !=null && id == this.userValue.candidateId) {                    
                     const user1 = { ...this.userValue, ...user };
-                    localStorage.setItem('user', JSON.stringify(user1));
-                    // publish updated user to subscribers
+                    localStorage.setItem('user', JSON.stringify(user1));                    
                     this.userSubject.next(user1);
                 }
                 return x;
@@ -79,7 +76,7 @@ export class AccountService {
     }
 
     delete(id: string) {
-        return this.http.delete(`${environment.apiUrl}/users/${id}`)
+        return this.http.delete(`${environment.apiUrl}/delete/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
                 if (this.userValue != null && id == this.userValue.candidateId) {
